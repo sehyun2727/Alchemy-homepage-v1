@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALCHEMY — 전남대학교 J-POP 밴드동아리 アルケミ</title>
+<meta name="description" content="전남대학교 유일 J-POP 밴드동아리 ALCHEMY(アルケミ). 첫 화면에서 기타·베이스·드럼·건반을 직접 연주해 보세요. 2026년 2학기 신입부원 모집 안내.">
+<meta property="og:title" content="ALCHEMY — 전남대 J-POP 밴드동아리">
+<meta property="og:description" content="눌러보세요, 소리가 납니다. 전남대학교 유일 J-POP 밴드동아리 ALCHEMY.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1d5cc8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%231d5cc8'/%3E%3Cpath fill='%23fff' d='M3 1h2v1h1v5H5V5H3v2H2V2h1zM3 2v2h2V2z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DotGothic16&family=Nanum+Pen+Script&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-recruit="closed">
+<a class="skip" href="#about">본문으로 건너뛰기</a>
+
+<header class="site-header">
+  <a class="brand" href="#play" aria-label="ALCHEMY 처음으로"><span class="logo logo-sm" role="img" aria-label="アルケミ ALCHEMY"><span class="logo-band">BAND</span><span class="logo-kana">アルケミ</span><span class="logo-en">ALCHEMY</span></span></a>
+  <nav class="nav" aria-label="섹션">
+    <a href="#play"><b>01</b>PLAY</a><a href="#about"><b>02</b>ABOUT</a><a href="#activity"><b>03</b>ACTIVITY</a><a href="#identity"><b>04</b>IDENTITY</a><a href="#join"><b>05</b>JOIN</a>
+  </nav>
+  <div class="header-actions">
+    <button class="sound-btn" id="soundBtn" type="button" aria-pressed="true"><span class="sb-ic" aria-hidden="true">♪</span><span class="sb-t">SOUND ON</span></button>
+    <a class="btn btn-ink btn-sm" href="#join">JOIN</a>
+  </div>
+</header>
+
+<main>
+<!-- ================= 01 PLAY ================= -->
+<section id="play" class="sec hero" aria-label="악기 연주">
+  <div class="wrap">
+    <div class="hero-head">
+      <div>
+        <h1 class="hero-title">PLAY <span class="blue">ALCHEMY</span></h1>
+      </div>
+      <div class="hero-progress" aria-live="polite">
+        <div class="prog-label">PARTS PLAYED <b id="progCount">0</b>/4</div>
+        <ol class="prog-dots"><li data-part="guitar">GUITAR</li><li data-part="bass">BASS</li><li data-part="drums">DRUMS</li><li data-part="keys">KEYS</li></ol>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="악기 선택">
+      <button class="tab" role="tab" data-tab="guitar" aria-selected="true"><i data-pix="guitar"></i>GUITAR</button>
+      <button class="tab" role="tab" data-tab="bass" aria-selected="false"><i data-pix="bass"></i>BASS</button>
+      <button class="tab" role="tab" data-tab="drums" aria-selected="false"><i data-pix="drums"></i>DRUMS</button>
+      <button class="tab" role="tab" data-tab="keys" aria-selected="false"><i data-pix="keys"></i>KEYS</button>
+    </div>
+
+    <div class="stage" id="stage" data-active="guitar">
+      <div class="inst inst-guitar">
+        <div class="inst-bar">
+          <span class="inst-name"><i data-pix="guitar"></i>GUITAR</span>
+          <label class="vol-ctrl" title="GUITAR 음량"><span class="vol-ic" aria-hidden="true">♪</span><input type="range" class="vol" min="0" max="1" step="0.01" value="0.55" data-vol="guitar" aria-label="GUITAR 음량"></label>
+        </div>
+        <div class="canvas-box"><canvas id="guitarCanvas" role="img" aria-label="기타 줄. 클릭하거나 위아래로 드래그해서 연주. 키보드 1~6, Q는 스트럼"></canvas></div>
+        <div class="inst-ctrl"><div class="chords" id="chords" role="group" aria-label="코드 선택"></div><button class="chip" id="driveBtn" type="button" aria-pressed="false">DRIVE</button></div>
+      </div>
+
+      <div class="inst inst-drums">
+        <div class="inst-bar">
+          <span class="inst-name"><i data-pix="drums"></i>DRUMS</span>
+          <label class="vol-ctrl" title="DRUMS 음량"><span class="vol-ic" aria-hidden="true">♪</span><input type="range" class="vol" min="0" max="1" step="0.01" value="0.8" data-vol="drums" aria-label="DRUMS 음량"></label>
+        </div>
+        <div class="kit-box"><div class="kit" id="kit" role="group" aria-label="드럼 세트"></div></div>
+      </div>
+
+      <div class="inst inst-bass">
+        <div class="inst-bar">
+          <span class="inst-name"><i data-pix="bass"></i>BASS</span>
+          <label class="vol-ctrl" title="BASS 음량"><span class="vol-ic" aria-hidden="true">♪</span><input type="range" class="vol" min="0" max="1" step="0.01" value="0.95" data-vol="bass" aria-label="BASS 음량"></label>
+        </div>
+        <div class="canvas-box"><canvas id="bassCanvas" role="img" aria-label="베이스 줄. 칸 위치에 따라 음높이가 바뀝니다. 키보드 7~0"></canvas></div>
+      </div>
+
+      <div class="inst inst-keys">
+        <div class="inst-bar">
+          <span class="inst-name"><i data-pix="keys"></i>KEYS</span>
+          <label class="vol-ctrl" title="KEYS 음량"><span class="vol-ic" aria-hidden="true">♪</span><input type="range" class="vol" min="0" max="1" step="0.01" value="0.5" data-vol="keys" aria-label="KEYS 음량"></label>
+        </div>
+        <div class="keys" id="keys" role="group" aria-label="건반"></div>
+      </div>
+    </div>
+
+    <div class="hero-done" id="heroDone" hidden>
+      <div><p class="hd-k">4 PARTS → 1 BAND</p><p class="hd-t">방금 만진 악기 네 개, 사람이 모여 같이 치면 밴드가 됩니다.</p></div>
+      <a class="btn" href="#about">ALCHEMY 알아보기 ↓</a>
+    </div>
+    <a class="scroll-cue" href="#about"><span aria-hidden="true">▼</span> 그래서, ALCHEMY는?</a>
+  </div>
+</section>
+
+<!-- ================= 02 ABOUT ================= -->
+<section id="about" class="sec about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <h2 class="h2 reveal"><span class="blue">J-POP 밴드동아리</span><br>ALCHEMY란?</h2>
+        <div class="about-text reveal">
+          <p>혹시 J-POP에 관심이 있으신가요?</p>
+          <p>그렇다면 전남대학교 유일의 J-POP 밴드 동아리<br><b>Alchemy</b>에서 함께 음악을 즐겨봐요!</p>
+          <p>친근한 분위기 속에서 자유롭게 합주하고<br>함께 무대에 올라 즐겁게 공연도 해요.</p>
+          <p><b>J-POP을 잘 몰라도 괜찮습니다!</b><br>악기 연주나 노래를 좋아한다면,<br>함께 알아가고, 함께 연주하며 즐겁게 놀아봐요 😊</p>
+        </div>
+      </div>
+      <aside class="about-facts">
+        <div class="fact reveal"><span class="fact-k">ONLY</span><b>전남대 유일</b><span>J-POP 밴드 동아리</span></div>
+        <div class="fact reveal"><span class="fact-k">SESSION</span><b>5 파트</b><span>보컬 · 일렉기타 · 베이스 · 건반 · 드럼</span></div>
+        <div class="fact reveal"><span class="fact-k">STAGE</span><b>학기마다 정기공연</b><span>+ 알림아리 · 축제 · 연합공연 등</span></div>
+        <div class="fact reveal"><span class="fact-k">ROOM</span><b>제1학생회관 지하</b><span>Alchemy 동아리방</span></div>
+      </aside>
+    </div>
+    <div class="artists reveal">
+      <p class="artists-cap">예를 들면, 이런 J-POP</p>
+      <div class="marquee" aria-label="Vaundy, ヨルシカ, King Gnu, YOASOBI, Ado, Official髭男dism, 結束バンド, Mrs. GREEN APPLE"><div class="marquee-track"><span>Vaundy</span><span>ヨルシカ</span><span>King Gnu</span><span>YOASOBI</span><span>Ado</span><span>Official髭男dism</span><span>結束バンド</span><span>Mrs. GREEN APPLE</span><span>Vaundy</span><span>ヨルシカ</span><span>King Gnu</span><span>YOASOBI</span><span>Ado</span><span>Official髭男dism</span><span>結束バンド</span><span>Mrs. GREEN APPLE</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 ACTIVITY ================= -->
+<section id="activity" class="sec activity">
+  <div class="wrap">
+    <div class="act-head">
+      <h2 class="h2 reveal">이런 활동을 해요</h2>
+      <p class="lead reveal">ALCHEMY의 한 학기, 셋리스트로 정리했어요.</p>
+    </div>
+    <ol class="setlist">
+      <li class="reveal"><div class="track-item"><span class="tr-no">01</span><span class="tr-ic" data-pix="vocal"></span><span class="tr-main"><b>정기공연</b><span>학기마다 1회의 정기 공연 진행</span></span></div></li>
+      <li class="reveal"><div class="track-item"><span class="tr-no">02</span><span class="tr-ic" data-pix="guitar"></span><span class="tr-main"><b>다양한 무대</b><span>알림아리, 축제, 연합공연 등</span></span></div></li>
+      <li class="reveal"><div class="track-item"><span class="tr-no">03</span><span class="tr-ic" data-pix="note"></span><span class="tr-main"><b>합주 활동</b><span>정기적인 팀 합주 및 자율 합주</span></span></div></li>
+      <li class="reveal"><div class="track-item"><span class="tr-no">04</span><span class="tr-ic" data-pix="tent"></span><span class="tr-main"><b>친목 활동</b><span>MT, 모임, 자율 합주 등 즐거운 시간</span></span></div></li>
+    </ol>
+
+    <div class="act-grid">
+      <div class="room reveal">
+        <p class="room-k">IN THE ROOM</p>
+        <h3 class="room-t">동아리방에서는</h3>
+        <ul class="dot-list">
+          <li>언제든 동아리방에 와서 <b>자율 합주 및 연습</b> 가능</li>
+          <li>자율적으로 팀을 구성해 <b>원하는 곡 합주</b> 가능</li>
+          <li>합주 일정은 자율 <span class="small">— 개인 스케줄을 고려하여 팀마다 협의</span></li>
+        </ul>
+        <p class="room-loc"><i data-pix="drums"></i>제1학생회관 지하 · Alchemy 동아리방</p>
+      </div>
+      <div class="photos" id="photos"></div>
+    </div>
+
+    <div class="act-links">
+      <a class="yt-card reveal" data-link="youtube" href="https://www.youtube.com/@jnualchemy" target="_blank" rel="noopener">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="2" y="9" width="44" height="30" rx="9" fill="#ff0000"/><path d="M20 17 L32 24 L20 31 Z" fill="#fff"/></svg><span><b>YOUTUBE</b><span class="yt-h">@jnualchemy</span><span>지난 공연 및 다양한 활동 영상 확인</span></span><span class="go" aria-hidden="true">→</span>
+      </a>
+      <div class="event-card reveal" id="eventCard" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 IDENTITY ================= -->
+<section id="identity" class="sec identity">
+  <div class="wrap">
+    <div class="id-grid">
+      <div class="id-text">
+        <p class="id-word reveal"><span class="id-en">al·che·my</span><span class="id-def">연금술 — 서로 다른 재료를 섞어 새로운 것을 만들어 내는 일</span></p>
+        <h2 class="h2 reveal">따로 치면 소리,<br><span class="blue">섞으면 음악.</span></h2>
+        <p class="id-p reveal">첫 화면에서 눌러본 기타, 베이스, 드럼, 건반. 혼자 치면 한 파트의 소리지만, 서로 다른 사람이 각자의 파트를 들고 모이면 하나의 곡이 됩니다.</p>
+        <p class="id-ins reveal"><b>파트를 하나씩 넣어보세요.</b> 넣을 때마다 소리가 섞입니다.</p>
+        <div class="parts reveal" role="group" aria-label="파트 섞기">
+          <button class="part-chip" type="button" data-part="vocal" aria-pressed="false"><i data-pix="vocal"></i><b>VOCAL</b><span>보컬</span></button>
+          <button class="part-chip" type="button" data-part="guitar" aria-pressed="false"><i data-pix="guitar"></i><b>GUITAR</b><span>일렉기타</span><em class="pb" data-played-badge="guitar">PLAYED ✓</em></button>
+          <button class="part-chip" type="button" data-part="bass" aria-pressed="false"><i data-pix="bass"></i><b>BASS</b><span>베이스</span><em class="pb" data-played-badge="bass">PLAYED ✓</em></button>
+          <button class="part-chip" type="button" data-part="keys" aria-pressed="false"><i data-pix="keys"></i><b>KEYS</b><span>건반</span><em class="pb" data-played-badge="keys">PLAYED ✓</em></button>
+          <button class="part-chip" type="button" data-part="drums" aria-pressed="false"><i data-pix="drums"></i><b>DRUMS</b><span>드럼</span><em class="pb" data-played-badge="drums">PLAYED ✓</em></button>
+        </div>
+        <div class="mix-ctrl reveal"><button class="btn btn-ink" id="mixBtn" type="button">▶ 전부 섞어보기</button><button class="btn" id="mixReset" type="button">비우기</button><span class="mix-count"><b id="mixCount">0</b> / 5 PARTS</span></div>
+      </div>
+      <div class="flask-wrap reveal">
+        <svg id="flask" viewBox="0 0 200 270" role="img" aria-label="파트가 섞이는 플라스크">
+          <defs><clipPath id="flaskClip"><path d="M82 14 H118 V92 L178 222 Q186 252 160 252 H40 Q14 252 22 222 L82 92 Z"/></clipPath></defs>
+          <g clip-path="url(#flaskClip)">
+            <rect x="0" y="0" width="200" height="270" fill="#fff"/>
+            <g class="layer" data-part="drums"><rect x="0" y="222" width="200" height="31" fill="#0f2f6b"/><text x="100" y="241">DRUMS</text></g>
+            <g class="layer" data-part="bass"><rect x="0" y="222" width="200" height="31" fill="#164a9f"/><text x="100" y="241">BASS</text></g>
+            <g class="layer" data-part="guitar"><rect x="0" y="222" width="200" height="31" fill="#1d5cc8"/><text x="100" y="241">GUITAR</text></g>
+            <g class="layer" data-part="keys"><rect x="0" y="222" width="200" height="31" fill="#5b8de0"/><text x="100" y="241">KEYS</text></g>
+            <g class="layer" data-part="vocal"><rect x="0" y="222" width="200" height="31" fill="#a9c3ea"/><text x="100" y="241">VOCAL</text></g>
+            <circle class="bub" cx="70" cy="240" r="4"/><circle class="bub b2" cx="112" cy="244" r="3"/><circle class="bub b3" cx="138" cy="238" r="5"/><circle class="bub b4" cx="92" cy="246" r="3"/>
+          </g>
+          <path d="M82 14 H118 V92 L178 222 Q186 252 160 252 H40 Q14 252 22 222 L82 92 Z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+          <rect x="74" y="6" width="52" height="11" rx="4" fill="#fff" stroke="#111" stroke-width="3.5"/>
+          <g stroke="#111" stroke-width="2"><line x1="118" y1="40" x2="110" y2="40"/><line x1="118" y1="58" x2="112" y2="58"/><line x1="118" y1="76" x2="110" y2="76"/></g>
+        </svg>
+        <div class="one-band" aria-hidden="true"><span>ONE BAND</span></div>
+      </div>
+    </div>
+    <div class="id-done">
+      <p>다섯 파트가 모여 한 곡이 됐어요.<br><b>이 중 한 자리에, 당신이 들어올 수 있어요.</b></p>
+      <a class="btn btn-blue" href="#join">2026 2학기 모집 보기 ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 JOIN ================= -->
+<section id="join" class="sec join">
+  <div class="wrap">
+    <div class="join-cover reveal">
+      <span class="logo logo-lg" role="img" aria-label="アルケミ ALCHEMY"><span class="logo-band">BAND</span><span class="logo-kana">アルケミ</span><span class="logo-en">ALCHEMY</span></span>
+      <p class="jc-term">2026년 2학기</p>
+      <h2 class="jc-title">ALCHEMY<br><span class="blue">신입부원 모집</span></h2>
+      <p class="jc-sub">전남대 유일 JPOP 밴드 동아리</p>
+      <div class="tags"><span class="tag">#JPOP</span><span class="tag">#밴드 동아리</span><span class="tag">#신입부원 모집</span></div>
+      <div class="status" id="recruitStatus" aria-live="polite">2026-2 모집</div>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tl-item"><span class="tl-k">APPLY · 지원 마감</span><b>~ 9월 4일(금) 20:00</b><span>구글폼 지원</span><span class="tl-state"></span></div>
+      <div class="tl-item"><span class="tl-k">INTERVIEW · 면접</span><b>9월 4일(금) ~ 9월 11일(금)</b><span>18시 이후 진행 · 협의 가능</span><span class="tl-state"></span></div>
+    </div>
+
+    <div class="join-grid">
+      <article class="jcard reveal">
+        <h3 class="jcard-h"><span>RECRUIT</span><span aria-hidden="true">●●●</span></h3>
+        <h4>모집 안내</h4>
+        <div class="jrow"><span class="pill">모집 대상</span>
+          <ul class="dot-list"><li>전남대학교 신입생, 재학생, 휴학생</li><li>학년 및 나이 무관</li><li>1년 이상 활동 가능하신 분</li><li>JPOP과 밴드 음악을 좋아하고 함께 활동하고 싶은 분</li></ul>
+        </div>
+        <p class="hand-wrap"><span class="hand">악기 경험이 많지 않더라도 지원 가능합니다! ☆</span></p>
+        <div class="jrow"><span class="pill">모집 분야</span>
+          <div class="fields">
+            <button class="field" type="button" data-field="vocal"><i data-pix="vocal"></i><b>보컬</b><span>VOCAL</span></button>
+            <button class="field" type="button" data-field="guitar"><i data-pix="guitar"></i><b>일렉기타</b><span>GUITAR</span><em class="pb" data-played-badge="guitar">PLAYED ✓</em></button>
+            <button class="field" type="button" data-field="bass"><i data-pix="bass"></i><b>베이스</b><span>BASS</span><em class="pb" data-played-badge="bass">PLAYED ✓</em></button>
+            <button class="field" type="button" data-field="keys"><i data-pix="keys"></i><b>건반</b><span>KEYS</span><em class="pb" data-played-badge="keys">PLAYED ✓</em></button>
+            <button class="field" type="button" data-field="drums"><i data-pix="drums"></i><b>드럼</b><span>DRUMS</span><em class="pb" data-played-badge="drums">PLAYED ✓</em></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jcard reveal">
+        <h3 class="jcard-h"><span>HOW TO APPLY</span><span aria-hidden="true">●●●</span></h3>
+        <h4>지원 안내</h4>
+        <div class="jrow"><span class="pill">지원 기간</span><p class="jtext">~ 9월 4일 금요일 20시까지</p></div>
+        <div class="jrow"><span class="pill">지원 방법</span><p class="jtext">구글폼 링크를 통해 지원 양식에 맞춰 지원해 주세요.<br><span class="small">* 문의는 카카오톡 오픈채팅방으로 해주세요.</span></p></div>
+        <div class="jrow"><span class="pill">지원 양식</span><p class="jtext">이름 / 생년 / 학번 / 성별 / 지원 분야 / 면접곡 2곡</p></div>
+        <div class="bbox"><p class="bbox-k">EX)</p><p>김근우 / 05 / 24 / 남 / 일렉기타 /<br>요아소비 - 저 꿈을 덧그리며<br>RADWIMPS - 과호흡</p></div>
+      </article>
+
+      <article class="jcard reveal">
+        <h3 class="jcard-h"><span>INTERVIEW</span><span aria-hidden="true">●●●</span></h3>
+        <h4>면접 안내</h4>
+        <div class="jrow"><span class="pill">면접 일정</span><p class="jtext">9월 4일(금) ~ 9월 11일(금), 18시 이후 진행, 협의 가능</p></div>
+        <div class="jrow"><span class="pill">면접 장소</span><p class="jtext">제1학생회관 지하 Alchemy 동아리방</p></div>
+        <div class="jrow"><span class="pill">면접 방식</span><p class="jtext">면접곡 2곡 준비 (1절만 하셔도 됩니다)</p></div>
+        <div class="bbox bbox-big"><p>보컬 : JPOP 필수<br>그 외 세션 : 장르 무관</p></div>
+      </article>
+
+      <article class="jcard reveal">
+        <h3 class="jcard-h"><span>DETAILS</span><span aria-hidden="true">●●●</span></h3>
+        <h4>기타 정보</h4>
+        <ul class="dot-list big">
+          <li>회비 : 학기당 4.5만원</li>
+          <li>합주 일정 : 자율<br><span class="small">* 개인 스케줄을 고려하여 팀마다 협의</span></li>
+          <li>언제든 동아리방에 와서 자율 합주 및 연습 가능</li>
+          <li>자율적으로 팀 구성을 통해 원하는 곡 합주 가능</li>
+        </ul>
+      </article>
+    </div>
+    <p class="notice">* 알케미는 신천지, 대진연 등의 유사 종교 및 정치 활동을 금합니다.</p>
+
+    <div class="cta reveal" id="cta">
+      <p class="cta-k">JOIN ALCHEMY</p>
+      <h3 class="cta-title">2026 2학기 신입부원 모집</h3>
+      <p class="cta-msg" id="ctaMsg"></p>
+      <div class="cta-btns">
+        <a class="btn btn-blue btn-lg" id="applyBtn" href="#join" target="_blank" rel="noopener"><span>지원하기</span> →</a>
+        <a class="btn btn-ig btn-lg" id="igBtn" data-link="instagram" href="https://www.instagram.com/jnu_alchemy/" target="_blank" rel="noopener"><svg class="ig-ic" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="igg1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#igg1)"/><rect x="11" y="11" width="26" height="26" rx="8" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="24" cy="24" r="6.2" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="31.5" cy="16.5" r="2" fill="#fff"/></svg>Instagram @jnu_alchemy</a>
+        <a class="btn btn-lg btn-kakao" data-link="kakaoOpenChat" href="#" target="_blank" rel="noopener">카카오톡 문의</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <h2 class="h2">ALCHEMY의 소식이<br>궁금하다면?</h2>
+    <div class="contact-list">
+      <a class="contact contact-ig" data-link="instagram" href="https://www.instagram.com/jnu_alchemy/" target="_blank" rel="noopener">
+        <svg class="ig-ic" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="igg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#igg2)"/><rect x="11" y="11" width="26" height="26" rx="8" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="24" cy="24" r="6.2" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="31.5" cy="16.5" r="2" fill="#fff"/></svg><span class="c-body"><b>INSTAGRAM</b><span class="c-handle">@jnu_alchemy · 공식 계정</span><span class="c-desc">활동 소식 및 안내 확인 · DM을 통한 문의도 가능합니다</span></span><span class="c-go">팔로우 →</span>
+      </a>
+      <a class="contact" data-link="kakaoOpenChat" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="8" fill="#FEE500"/><ellipse cx="24" cy="22" rx="17" ry="13" fill="#3C1E1E"/><path d="M14 31 L12 38 L20 33 Z" fill="#3C1E1E"/><text x="24" y="26" text-anchor="middle" font-size="10" font-weight="900" fill="#FEE500" font-family="Arial,sans-serif">TALK</text></svg><span class="c-body"><b>KAKAO TALK</b><span class="c-desc">전체 문의 및 면접 지원 관련 문의 · 지원 및 기타 궁금한 사항은 오픈채팅으로!</span></span><span class="c-go">문의 →</span>
+      </a>
+      <a class="contact" data-link="youtube" href="https://www.youtube.com/@jnualchemy" target="_blank" rel="noopener">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="2" y="9" width="44" height="30" rx="9" fill="#ff0000"/><path d="M20 17 L32 24 L20 31 Z" fill="#fff"/></svg><span class="c-body"><b>YOUTUBE</b><span class="c-handle">@jnualchemy</span><span class="c-desc">전남대학교 JPOP 밴드동아리 Alchemy · 지난 공연 및 다양한 활동 영상</span></span><span class="c-go">보기 →</span>
+      </a>
+    </div>
+    <div class="foot-bottom">
+      <span class="logo logo-md" role="img" aria-label="アルケミ ALCHEMY"><span class="logo-band">BAND</span><span class="logo-kana">アルケミ</span><span class="logo-en">ALCHEMY</span></span>
+      <p class="foot-info">전남대학교 J-POP 밴드동아리 ALCHEMY<br>제1학생회관 지하 Alchemy 동아리방</p>
+      <p class="copy">© 2026 ALCHEMY. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
