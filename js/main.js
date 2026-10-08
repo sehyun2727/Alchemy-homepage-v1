@@ -339,18 +339,37 @@
   function hitDrum(id) { A.drum(id); anim(kitEls[id], 'hit'); markPlayed('drums'); }
 
   /* =========================================================
-     건반
+     건반 — C3 ~ E5, 흰 건반 17개 · 검은 건반 12개 (총 29키)
+     하단 하이로 (A ~ ;): C3 ~ E4
+     상단 숫자행 (1 ~ =): F4 ~ E5
      ========================================================= */
-  var WHITE = [60, 62, 64, 65, 67, 69, 71, 72, 74, 76];
-  var BLACK = [[61, 0], [63, 1], [66, 3], [68, 4], [70, 5], [73, 7], [75, 8]];
-  var KEYMAP = { KeyA: 60, KeyW: 61, KeyS: 62, KeyE: 63, KeyD: 64, KeyF: 65, KeyT: 66, KeyG: 67, KeyY: 68, KeyH: 69, KeyU: 70, KeyJ: 71, KeyK: 72, KeyO: 73, KeyL: 74, KeyP: 75, Semicolon: 76 };
-  var KEYLABEL = {}; Object.keys(KEYMAP).forEach(function (c) { KEYLABEL[KEYMAP[c]] = c === 'Semicolon' ? ';' : c.slice(3); });
+  var WHITE = [48,50,52,53,55,57,59, 60,62,64,65,67,69,71, 72,74,76];
+  var BLACK = [[49,0],[51,1],[54,3],[56,4],[58,5],[61,7],[63,8],[66,10],[68,11],[70,12],[73,14],[75,15]];
+  var W_PCT = 100 / WHITE.length;
+  var B_PCT = W_PCT * 0.6;
+  var KEYMAP = {
+    // C3 ~ E4 (하단 홈로우 + QWERTY 블랙)
+    KeyA: 48, KeyW: 49, KeyS: 50, KeyE: 51, KeyD: 52,
+    KeyF: 53, KeyT: 54, KeyG: 55, KeyY: 56, KeyH: 57,
+    KeyU: 58, KeyJ: 59,
+    KeyK: 60, KeyO: 61, KeyL: 62, KeyP: 63, Semicolon: 64,
+    // F4 ~ E5 (숫자행)
+    Digit1: 65, Digit2: 66, Digit3: 67, Digit4: 68, Digit5: 69,
+    Digit6: 70, Digit7: 71, Digit8: 72, Digit9: 73, Digit0: 74,
+    Minus: 75, Equal: 76
+  };
+  var CODE_LABEL = { Semicolon: ';', Minus: '-', Equal: '=' };
+  var KEYLABEL = {};
+  Object.keys(KEYMAP).forEach(function (c) {
+    KEYLABEL[KEYMAP[c]] = CODE_LABEL[c] || (c.indexOf('Key') === 0 ? c.slice(3) : c.slice(5));
+  });
   var keysBox = $('#keys'), keyEls = [], keyElByMidi = {}, activeKeys = {}, keyPointerDown = false;
   function addKey(m, cls, left, width) {
     var b = mk('button', cls); b.type = 'button'; b.tabIndex = -1;
     b.style.left = left + '%'; b.style.width = width + '%';
     b.setAttribute('aria-label', noteName(m));
-    b.innerHTML = (m % 12 === 0 ? '<span class="kn">' + noteName(m) + '</span>' : '') + '<span class="kl">' + KEYLABEL[m] + '</span>';
+    var lbl = KEYLABEL[m];
+    b.innerHTML = (m % 12 === 0 ? '<span class="kn">' + noteName(m) + '</span>' : '') + (lbl ? '<span class="kl">' + lbl + '</span>' : '');
     b.addEventListener('pointerdown', function (e) {
       e.preventDefault(); keyPointerDown = true;
       try { b.releasePointerCapture(e.pointerId); } catch (err) {}
@@ -361,8 +380,8 @@
     b.addEventListener('pointerup', function () { keyOff(m); });
     keysBox.appendChild(b); keyEls.push({ m: m, el: b }); keyElByMidi[m] = b;
   }
-  WHITE.forEach(function (m, i) { addKey(m, 'wk', i * 10, 10); });
-  BLACK.forEach(function (p) { addKey(p[0], 'bk', (p[1] + 1) * 10 - 3, 6); });
+  WHITE.forEach(function (m, i) { addKey(m, 'wk', i * W_PCT, W_PCT); });
+  BLACK.forEach(function (p) { addKey(p[0], 'bk', (p[1] + 1) * W_PCT - B_PCT / 2, B_PCT); });
   ['pointerup', 'pointercancel'].forEach(function (t) { window.addEventListener(t, function () { keyPointerDown = false; }); });
   function keyOn(m) {
     if (activeKeys[m]) return;
@@ -385,20 +404,22 @@
     });
   });
 
-  /* ---------- 키보드 입력 ---------- */
+  /* ---------- 키보드 입력 ----------
+     피아노가 숫자행까지 쓰므로 기타 숫자키·베이스 숫자키 매핑은 제거 (마우스 전용)
+     기타 Q 스트럼 · 드럼 Z X C V B N M 은 유지
+     ========================================================= */
   var heroVisible = true, heldKeys = {};
-  var GKEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6'], BKEYS = ['Digit7', 'Digit8', 'Digit9', 'Digit0'];
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey || !heroVisible) return;
     var tag = (e.target && e.target.tagName) || '';
-    if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+    var itype = e.target && e.target.type;
+    // range 슬라이더(음량)에 포커스가 있어도 피아노 입력은 통과
+    if (/INPUT|TEXTAREA|SELECT/.test(tag) && itype !== 'range') return;
     var c = e.code;
     if (KEYMAP[c] != null) { e.preventDefault(); if (e.repeat || heldKeys[c]) return; heldKeys[c] = true; keyOn(KEYMAP[c]); return; }
     if (e.repeat) return;
     for (var i = 0; i < KIT.length; i++) if (KIT[i].key === c) { e.preventDefault(); hitDrum(KIT[i].id); return; }
-    var gi = GKEYS.indexOf(c); if (gi >= 0) { guitar.pluck(gi, 0.8); return; }
     if (c === 'KeyQ') { guitar.strum(true, 0.75); return; }
-    var bi = BKEYS.indexOf(c); if (bi >= 0) { bass.pluck(bi, 0.85, null); return; }
   });
   document.addEventListener('keyup', function (e) {
     var c = e.code;
@@ -463,8 +484,8 @@
   /* ---------- 화면 밖으로 나가면 JAM 정지 / 키보드 입력 범위 ---------- */
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) {
-      es.forEach(function (e) { heroVisible = e.intersectionRatio > 0.2; });
-    }, { threshold: [0, 0.2, 0.5] }).observe($('#play'));
+      es.forEach(function (e) { heroVisible = e.isIntersecting; });
+    }, { threshold: 0 }).observe($('#play'));
     new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (!e.isIntersecting && Jam.owner === 'identity') Jam.stop(); });
     }, { threshold: 0 }).observe(idSec);
